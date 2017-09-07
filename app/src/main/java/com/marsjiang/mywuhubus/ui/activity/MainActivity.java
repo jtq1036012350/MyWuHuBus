@@ -2,18 +2,28 @@ package com.marsjiang.mywuhubus.ui.activity;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.google.gson.Gson;
 import com.marsjiang.mywuhubus.MyApplication;
 import com.marsjiang.mywuhubus.R;
+import com.marsjiang.mywuhubus.beans.SearchLineWithBusNum;
 import com.marsjiang.mywuhubus.databinding.ActivityMainBinding;
 import com.marsjiang.mywuhubus.ui.base.BaseActivity;
+import com.marsjiang.mywuhubus.utils.LogUtil;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.Request;
 
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
@@ -71,5 +81,55 @@ public class MainActivity extends BaseActivity {
         binding.sliderView.setPresetTransformer(SliderLayout.Transformer.Tablet);
         binding.sliderView.setCustomAnimation(new DescriptionAnimation());
         binding.sliderView.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
+
+        SearchLineWithBusNum searchLineWithBusNum = new SearchLineWithBusNum();
+        SearchLineWithBusNum.Params params = searchLineWithBusNum.new Params("56路");
+        searchLineWithBusNum.setCmd("lineDetail");
+        searchLineWithBusNum.setParams(params);
+
+        String url = "http://220.180.139.42:8980/SmartBusServer/Main";
+        OkHttpUtils
+                .postString()
+                .url(url)
+                .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                .content(new Gson().toJson(searchLineWithBusNum))
+                .build()
+                .execute(new MyStringCallback());
+    }
+
+    public class MyStringCallback extends StringCallback {
+        @Override
+        public void onBefore(Request request, int id) {
+            setTitle("loading...");
+        }
+
+        @Override
+        public void onAfter(int id) {
+            setTitle("Sample-okHttp");
+        }
+
+        @Override
+        public void onError(Call call, Exception e, int id) {
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onResponse(String response, int id) {
+            LogUtil.e("Tag", "onResponse：complete");
+
+            switch (id) {
+                case 100:
+                    Toast.makeText(MainActivity.this, "http", Toast.LENGTH_SHORT).show();
+                    break;
+                case 101:
+                    Toast.makeText(MainActivity.this, "https", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+
+        @Override
+        public void inProgress(float progress, long total, int id) {
+            LogUtil.e("Tag", "inProgress:" + progress);
+        }
     }
 }
