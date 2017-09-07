@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MyWuHuBus</string>
+    <string name="search">查询</string>
 </resources>
