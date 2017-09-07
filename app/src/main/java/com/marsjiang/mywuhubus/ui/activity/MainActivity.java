@@ -1,11 +1,11 @@
 package com.marsjiang.mywuhubus.ui.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.marsjiang.mywuhubus.R;
+import com.marsjiang.mywuhubus.ui.base.BaseActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

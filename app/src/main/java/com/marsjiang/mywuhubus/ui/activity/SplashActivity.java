@@ -1,7 +1,5 @@
 package com.marsjiang.mywuhubus.ui.activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -10,21 +8,25 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.marsjiang.mywuhubus.R;
+import com.marsjiang.mywuhubus.ui.base.BaseActivity;
 
 /**
  * 闪屏页面
  */
-public class SplashActivity extends Activity {
+public class SplashActivity extends BaseActivity {
     private LinearLayout ll_welcome_bg;
+    private ImageView iv_splash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 //        new Handler().postDelayed(new Runnable() {
 //            @Override
@@ -40,7 +42,10 @@ public class SplashActivity extends Activity {
      * 初始化动画
      */
     private void init() {
+        iv_splash = (ImageView) findViewById(R.id.iv_splash);
         ll_welcome_bg = (LinearLayout) findViewById(R.id.ll_welcome_bg);
+
+        Glide.with(this).load(R.mipmap.splash).into(iv_splash);
 
         // 旋转动画，0 ~ 360
         RotateAnimation rotateAnimation = new RotateAnimation(
@@ -85,7 +90,7 @@ public class SplashActivity extends Activity {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            startMyActivity(MainActivity.class, null);
             finish();
         }
 
