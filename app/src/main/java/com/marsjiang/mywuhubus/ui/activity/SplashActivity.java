@@ -1,5 +1,7 @@
 package com.marsjiang.mywuhubus.ui.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,12 +15,11 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.marsjiang.mywuhubus.R;
-import com.marsjiang.mywuhubus.ui.base.BaseActivity;
 
 /**
  * 闪屏页面
  */
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends Activity {
     private LinearLayout ll_welcome_bg;
     private ImageView iv_splash;
 
@@ -90,7 +91,7 @@ public class SplashActivity extends BaseActivity {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            startMyActivity(MainActivity.class, null);
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
         }
 

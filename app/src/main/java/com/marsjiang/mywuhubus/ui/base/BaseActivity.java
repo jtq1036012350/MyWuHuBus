@@ -42,7 +42,7 @@ public class BaseActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewUtil.initSystemBar(this, R.color.colorTitleBlack);
+        ViewUtil.initSystemBar(this, R.color.colorBlue);
         mActivity = this;
     }
 
